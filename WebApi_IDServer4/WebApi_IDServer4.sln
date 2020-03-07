@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.1022
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi_IDServer4", "WebApi_IDServer4\WebApi_IDServer4.csproj", "{51CF5EE3-B7DB-4F8E-ADBB-E155DC3A17B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi_IDServer4.DLL", "WebApi_IDServer4.DLL\WebApi_IDServer4.DLL.csproj", "{077A272D-8B75-4E59-9FE2-4F6EFBC4051F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{51CF5EE3-B7DB-4F8E-ADBB-E155DC3A17B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51CF5EE3-B7DB-4F8E-ADBB-E155DC3A17B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51CF5EE3-B7DB-4F8E-ADBB-E155DC3A17B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{077A272D-8B75-4E59-9FE2-4F6EFBC4051F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{077A272D-8B75-4E59-9FE2-4F6EFBC4051F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{077A272D-8B75-4E59-9FE2-4F6EFBC4051F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{077A272D-8B75-4E59-9FE2-4F6EFBC4051F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

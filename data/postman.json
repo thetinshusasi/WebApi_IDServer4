@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "895974ec-f3f4-4286-98c2-45ccc6b445c5",
+		"name": "BankingApplication",
+		"description": "BankOfDotNet Web API\n\nEndpoints:\n\nGetAllCustomers api/Customers GET \nGetSpecificCustomer api/Customers/3 GET \nUpdateCustomer api/Customer/3 PUT CustomerObject\nCreateCustomer api/Customer POST CustomerObject\nDeleteCustomer api/Customer/3 DELETE ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:5001/api/customers GetAllCustomers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://localhost:5001/api/customers",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"customers"
+					]
+				},
+				"description": "Get All Customers"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/customers/3 GetCustomer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://localhost:5001/api/customers/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"customers",
+						"3"
+					]
+				},
+				"description": "Get All Customers"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/customers DeleteCustomer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://localhost:5001/api/customers/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"customers",
+						"3"
+					]
+				},
+				"description": "Get All Customers"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/customers UpdateCustomer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": 3,\n\t\"FirstName\": \"XYZ\",\n\t\"LastName\": \"PRQ\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/customers/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"customers",
+						"3"
+					]
+				},
+				"description": "Get All Customers"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:5001/api/customers CreateCustomer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\": 5,\n\t\"FirstName\": \"Steve\",\n\t\"LastName\": \"Baker\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/customers",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"customers"
+					]
+				},
+				"description": "Get All Customers"
+			},
+			"response": []
+		}
+	]
+}
