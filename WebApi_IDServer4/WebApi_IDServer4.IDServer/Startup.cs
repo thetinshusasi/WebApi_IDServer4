@@ -16,6 +16,7 @@ namespace WebApi_IDServer4.IDServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
                 .AddInMemoryApiResources(Config.GetAllApiResources())
                 .AddInMemoryClients(Config.GetAllClients());
         }

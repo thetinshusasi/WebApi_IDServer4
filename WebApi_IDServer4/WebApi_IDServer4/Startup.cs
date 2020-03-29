@@ -28,6 +28,13 @@ namespace WebApi_IDServer4
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(opts =>
+                {
+                    opts.ApiName = "MyDBCustomerApi";
+                    opts.Authority = "http://localhost:5000/";
+                    opts.RequireHttpsMetadata = false;
+                });
             services.AddDbContext<MyDBContext>(opts =>
             {
                 opts.UseInMemoryDatabase("MyDB");
@@ -60,7 +67,7 @@ namespace WebApi_IDServer4
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
 
