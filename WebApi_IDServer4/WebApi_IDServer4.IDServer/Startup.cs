@@ -15,10 +15,13 @@ namespace WebApi_IDServer4.IDServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryApiResources(Config.GetAllApiResources())
-                .AddInMemoryClients(Config.GetAllClients());
+                .AddInMemoryClients(Config.GetAllClients())
+                .AddTestUsers(Config.GetUsers())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,6 +33,9 @@ namespace WebApi_IDServer4.IDServer
             }
 
             app.UseIdentityServer();
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
+
         }
     }
 }

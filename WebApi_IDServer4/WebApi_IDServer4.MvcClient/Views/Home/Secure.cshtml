@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Secure";
+}
+
+<h1>Secure</h1>
+<h3>User Claims</h3>
+
+<dl>
+    @foreach (var a in User.Claims)
+    {
+        <dl>@a.Type</dl>
+        <dl>@a.Value</dl>
+
+    }
+</dl>

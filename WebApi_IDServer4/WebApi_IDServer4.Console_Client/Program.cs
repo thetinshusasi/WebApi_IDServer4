@@ -14,6 +14,36 @@ namespace WebApi_IDServer4.Console_Client
 
         private static async Task MainAsync()
         {
+            #region Resource owner Flow
+            Console.WriteLine("Resource owner Flow");
+            var discoRo = await DiscoveryClient.GetAsync("http://localhost:5000");
+            if (discoRo.IsError)
+            {
+                Console.WriteLine(discoRo.Error);
+                return;
+            }
+
+            //Grab a bearer token
+            var tokenClientRo = new TokenClient(discoRo.TokenEndpoint, "client", "secret");
+            var tokenResponseRo = await tokenClientRo.RequestResourceOwnerPasswordAsync("tinshu",
+                "tinshu", "MyDBCustomerApi");
+            if (tokenResponseRo.IsError)
+            {
+                Console.WriteLine(tokenResponseRo.Error);
+                return;
+            }
+
+            Console.WriteLine(tokenResponseRo.Json);
+            Console.WriteLine("\n\n");
+
+
+            #endregion Resource owner Flow
+
+
+            #region Client Credential Flow
+
+            Console.WriteLine("Client Credential Flow");
+
             //discover all the endpoints using metadata of identity server
             var disco = await DiscoveryClient.GetAsync("http://localhost:5000");
             if (disco.IsError)
@@ -62,6 +92,8 @@ namespace WebApi_IDServer4.Console_Client
                 var content = await getCustomerResponse.Content.ReadAsStringAsync();
                 Console.WriteLine(JArray.Parse(content));
             }
+
+            #endregion Client Credential Flow
 
             Console.Read();
 
