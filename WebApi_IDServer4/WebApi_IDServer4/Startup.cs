@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using WebApi_IDServer4.Models;
 
 namespace WebApi_IDServer4
@@ -44,6 +46,51 @@ namespace WebApi_IDServer4
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.OperationFilter<CheckAuthorizeOperationFilter>();
+
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Scheme = "Bearer",
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Implicit = new OpenApiOAuthFlow
+                        {
+
+                            AuthorizationUrl = new Uri("http://localhost:5000/connect/authorize", false),
+                            TokenUrl = new Uri("http://localhost:5000/connect/token", false),
+                            Scopes = new Dictionary<string, string> {
+                                {"MyDBCustomerApi" ,"My APIs"},
+                            }
+                        }
+                    },
+                    BearerFormat = "bearer [Your Token]",
+
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement(){
+                    {
+                           new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            },
+            Scheme = "oauth2",
+            Name = "Bearer",
+            In = ParameterLocation.Header,
+
+        },
+        new List<string>()
+    }
+});
+
+                
+
+
             });
         }
 
@@ -66,11 +113,43 @@ namespace WebApi_IDServer4
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.OAuthClientId("swaggerapiui");
+                c.OAuthAppName("Swagger API UI");
             });
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
 
+        }
+    }
+
+    internal class CheckAuthorizeOperationFilter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        {
+
+            var isAuthorized = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any() ||
+                              context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
+
+            if (!isAuthorized) return;
+
+            operation.Responses.TryAdd("401", new OpenApiResponse { Description = "Unauthorized" });
+            operation.Responses.TryAdd("403", new OpenApiResponse { Description = "Forbidden" });
+
+            var jwtbearerScheme = new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearer" }
+            };
+
+            operation.Security = new List<OpenApiSecurityRequirement>
+                {
+
+                    new OpenApiSecurityRequirement
+                    {
+                        [ jwtbearerScheme ] = new string [] {  },
+
+                    }
+                };
         }
     }
 }
