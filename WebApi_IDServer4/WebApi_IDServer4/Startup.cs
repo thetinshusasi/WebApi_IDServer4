@@ -46,13 +46,14 @@ namespace WebApi_IDServer4
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.OperationFilter<CheckAuthorizeOperationFilter>();
-
-                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Type = SecuritySchemeType.OAuth2,
-                    In = ParameterLocation.Header,
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
                     Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.OAuth2,
                     Scheme = "Bearer",
                     Flows = new OpenApiOAuthFlows
                     {
@@ -62,34 +63,31 @@ namespace WebApi_IDServer4
                             AuthorizationUrl = new Uri("http://localhost:5000/connect/authorize", false),
                             TokenUrl = new Uri("http://localhost:5000/connect/token", false),
                             Scopes = new Dictionary<string, string> {
-                                {"MyDBCustomerApi" ,"My APIs"},
-                            }
+                                    {"MyDBCustomerApi" ,"My APIs"},
+                                }
                         }
                     },
-                    BearerFormat = "bearer [Your Token]",
 
                 });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement(){
-                    {
-                           new OpenApiSecurityScheme
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+      {
         {
+          new OpenApiSecurityScheme
+          {
             Reference = new OpenApiReference
-            {
+              {
                 Type = ReferenceType.SecurityScheme,
                 Id = "Bearer"
+              },
+              Scheme = "oauth2",
+              Name = "Bearer",
+              In = ParameterLocation.Header,
+
             },
-            Scheme = "oauth2",
-            Name = "Bearer",
-            In = ParameterLocation.Header,
-
-        },
-        new List<string>()
-    }
-});
-
-                
-
+            new List<string>()
+          }
+        });
 
             });
         }
